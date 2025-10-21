@@ -1,86 +1,79 @@
-🏠 USA Real Estate Price Prediction
+# 🏠 USA Real Estate Price Prediction
 
-Dataset: USA Real Estate Dataset (Kaggle)
-https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset
+**Dataset:** [USA Real Estate Dataset
+(Kaggle)](https://www.kaggle.com/datasets/ahmedshahriarsakib/usa-real-estate-dataset)
 
-📘 Project Overview
+------------------------------------------------------------------------
 
-This project aims to predict real estate prices across the United States using machine learning.
-We focused on creating clean, high-quality data and training strong predictive models to estimate house prices and detect whether a property is “expensive” or not.
+## 📘 Project Overview
 
-🧹 Data Cleaning & Preprocessing
+This project predicts house prices in the United States using machine
+learning.\
+It focuses on **data cleaning**, **feature engineering**, and **robust
+model training** to estimate property values and classify whether a
+house is "expensive" or not.
 
-The raw dataset contained 2.2 million property listings from across the U.S.
-After cleaning and filtering, we built a model-ready dataset of 544,909 houses from California, Florida, and Texas.
+------------------------------------------------------------------------
 
-Main cleaning steps:
+## 🧹 Data Cleaning & Preprocessing
 
-Removed invalid or extreme prices ($0 or over $10M)
+Original dataset: **2.2 million** property listings.\
+After cleaning and filtering: **544,909 houses** (California, Florida,
+and Texas).
 
-Dropped low-quality or duplicate columns (brokered_by, status, street)
+### Main cleaning steps:
 
-Removed unrealistic values:
+-   Removed invalid or extreme prices (`$0` or \> `$10M`)
+-   Dropped irrelevant columns (`brokered_by`, `status`, `street`)
+-   Removed unrealistic values:
+    -   Bedrooms \> 15\
+    -   Bathrooms \> 10\
+    -   House size \> 8,000 sqft\
+    -   Lot size \> 5 acres
+-   Imputed missing `bed` and `bath` using **state medians**
+-   Created new features:
+    -   `bed_bath_ratio`
+    -   `total_rooms`
+    -   Encoded `city` and `zip` using **target encoding**
 
-Bedrooms > 15
+**Final dataset:**\
+- 544,909 records\
+- 19 features\
+- 0% missing values
 
-Bathrooms > 10
+------------------------------------------------------------------------
 
-House size > 8,000 sqft
+## 📊 Exploratory Data Analysis (EDA)
 
-Lot size > 5 acres
+-   **Location is really important** --- ZIP and city explain 60--70% of price
+    variation.\
+-   Median home price: **\$449,000**\
+-   Range: **\$1,000 -- \$10,000,000**\
+-   Typical property: **3 beds / 2 baths / 1,700 sqft**\
+-   California, Florida, and Texas = **25%** of all listings.
 
-Imputed missing bed and bath values by state median
+------------------------------------------------------------------------
 
-Created new features:
+## 🤖 Modeling
 
-bed_bath_ratio
+### Tasks
 
-total_rooms
+1.  **Regression** → Predict price (`$`)
+    -   Random Forest\
+    -   XGBoost Regressor
+2.  **Classification** → Detect "expensive" houses (top 30%)
+    -   Logistic Regression\
+    -   XGBoost Classifier
 
-Encoded city and zip using target encoding
+### Results (Test Set)
 
-Final dataset:
+  Model                     R²      MAE     RMSE   AUC (if classifier)
+  --------------------- ------ -------- -------- ---------------------
+  Random Forest           0.84   \$130k   \$320k                   ---
+  XGBoost Regressor       0.83   \$141k   \$324k                   ---
+  Logistic Regression      ---      ---      ---                  0.94
+  XGBoost Classifier       ---      ---      ---                  0.98
 
-544,909 records
-
-19 features
-
-0% missing values
-
-📊 Exploratory Data Analysis (EDA)
-
-Main insights:
-
-Location drives price — ZIP and city explain 60–70% of value.
-
-Median home price (cleaned): $449,000
-
-Price range: $1,000 – $10,000,000
-
-Most properties have 3 beds / 2 baths / 1,700 sqft.
-
-The three selected states (CA, FL, TX) represent 25% of all listings.
-
-🤖 Modeling
-
-Trained multiple models for:
-
-Regression (predict price)
-
-Random Forest
-
-XGBoost Regressor
-
-Classification (expensive vs. not expensive)
-
-Logistic Regression
-
-XGBoost Classifier
-
-Results (Test set):
-
-Model	R²	MAE	RMSE	AUC (if classifier)
-Random Forest	0.84	$130k	$320k	—
-XGBoost Regressor	0.83	$141k	$324k	—
-Logistic Regression	—	—	—	0.94
-XGBoost Classifier	—	—	—	0.98
+✅ Strong accuracy and generalization\
+✅ Small overfitting gap\
+✅ Captures structural and geographic effects
